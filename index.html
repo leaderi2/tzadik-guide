@@ -1,79 +1,133 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<header>
-    <div class="header-content">
-        <div class="left-image">
-            <img src="left_head.png" alt="Left Image">
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>לימוד יהדות</title>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Almarai', sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            color: #333;
+        }
 
-        <div class="header-text">
-            <h1>שלום צדיקים! אשרייכם!</h1>
-            <p>ברוכים הבאים למסע להכרת היהדות</p>
-        </div>
+        /* Header / Entrance screen */
+        #entrance-screen {
+            background: #1e3a8a;
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
 
-        <div class="right-image">
-            <img src="right_head_image.png" alt="Right Image">
-        </div>
-    </div>
-</header>
+        #entrance-screen h1 {
+            font-size: 48px;
+            margin: 0 0 20px 0;
+        }
 
-<style>
-header {
-    background: #1e3a8a;
-    color: white;
-    padding: 60px 20px 100px 20px; /* more bottom padding to make space for images */
-    position: relative;
-}
+        #entrance-screen p {
+            font-size: 24px;
+            margin: 0 0 40px 0;
+        }
 
-.header-content {
-    display: flex;
-    align-items: flex-end; /* align images and text to bottom */
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-}
+        #entrance-screen button {
+            display: block;
+            width: 200px;
+            margin: 10px auto;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+            transition: background 0.3s;
+        }
 
-.header-text {
-    text-align: center;
-    flex: 1;
-}
+        #entrance-screen button:hover {
+            background: #1d4ed8;
+        }
 
-.header-text h1 {
-    font-size: 48px;
-    margin: 0;
-}
+        /* Main content (hidden until selection) */
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            display: none; /* hide until entrance */
+        }
 
-.header-text p {
-    font-size: 24px;
-    margin-top: 10px;
-}
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+        }
 
-/* Images on sides */
-.left-image img,
-.right-image img {
-    width: 180px; /* bigger size */
-    height: auto;
-    display: block;
-}
+        header p {
+            font-size: 24px;
+            margin-top: 10px;
+        }
 
-/* Make sure they sit at the bottom of the header */
-.left-image,
-.right-image {
-    display: flex;
-    align-items: flex-end;
-}
-</style>
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px;
+            display: none; /* hide until entrance */
+        }
 
+        nav button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        nav button:hover {
+            background: #1d4ed8;
+        }
+
+        .section {
+            display: none;
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin: 30px;
+            color: #666;
+            display: none; /* hide until entrance */
+        }
+    </style>
+</head>
 <body>
 
-<header>
+<!-- Entrance screen -->
+<div id="entrance-screen">
     <h1>שלום צדיקים! אשרייכם!</h1>
+    <p>ברוכים הבאים למסע אל היהדות</p>
+    <button onclick="selectGender('male')">זכר</button>
+    <button onclick="selectGender('female')">נקבה</button>
+</div>
+
+<!-- Main site content -->
+<header id="main-header">
+    <h1 id="welcome-text">ברוך הבא צדיק!</h1>
     <p>ברוכים הבאים למסע להכרת היהדות</p>
-    <img id="header-image" src="head_image.png" alt="תמונה">
 </header>
 
-<nav>
+<nav id="main-nav">
     <button onclick="show('tanach')">תנ״ך</button>
     <button onclick="show('year')">מעגל השנה</button>
     <button onclick="show('mitzvot')">ברכות ומצוות</button>
@@ -146,7 +200,7 @@ header {
     </p>
 </div>
 
-<footer>
+<footer id="main-footer">
     <p>נוצר באהבה ללימוד היהדות ✡</p>
 </footer>
 
@@ -155,6 +209,24 @@ function show(id) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+}
+
+function selectGender(gender) {
+    // Hide entrance screen
+    document.getElementById('entrance-screen').style.display = 'none';
+
+    // Show main content
+    document.getElementById('main-header').style.display = 'block';
+    document.getElementById('main-nav').style.display = 'flex';
+    document.getElementById('main-footer').style.display = 'block';
+
+    // Change welcome text based on gender
+    const welcome = document.getElementById('welcome-text');
+    if(gender === 'male') {
+        welcome.textContent = 'ברוך הבא צדיק!';
+    } else {
+        welcome.textContent = 'ברוכה הבאה צדיקה!';
+    }
 }
 </script>
 
