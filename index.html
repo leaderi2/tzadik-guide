@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <title>לימוד יהדות לתלמידים</title>
+
+```
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f5f5;
+    }
+
+    header {
+        background: #1e3a8a;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 20px;
+    }
+
+    nav button {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 12px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    nav button:hover {
+        background: #1d4ed8;
+    }
+
+    .section {
+        display: none;
+        background: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .active {
+        display: block;
+    }
+
+    footer {
+        text-align: center;
+        margin: 30px;
+        color: #666;
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+    <h1>אתר לימוד יהדות</h1>
+    <p>ברוכים הבאים למסע להכרת היהדות</p>
+</header>
+
+<nav>
+    <button onclick="show('tanach')">תנ״ך</button>
+    <button onclick="show('year')">מעגל השנה</button>
+    <button onclick="show('mitzvot')">ברכות ומצוות</button>
+    <button onclick="show('heritage')">מורשת ישראל</button>
+    <button onclick="show('parasha')">פרשת השבוע</button>
+</nav>
+
+<div id="tanach" class="section active">
+    <h2>תנ״ך</h2>
+    <p>
+        בחלק זה נלמד על:
+        <ul>
+            <li>ספרי התורה</li>
+            <li>נביאים</li>
+            <li>כתובים</li>
+            <li>דמויות מרכזיות בתנ״ך</li>
+        </ul>
+    </p>
+</div>
+
+<div id="year" class="section">
+    <h2>מעגל השנה</h2>
+    <p>
+        כאן נכיר את:
+        <ul>
+            <li>חגי ישראל</li>
+            <li>מועדים</li>
+            <li>ימי זיכרון</li>
+            <li>משמעות החגים</li>
+        </ul>
+    </p>
+</div>
+
+<div id="mitzvot" class="section">
+    <h2>ברכות ומצוות</h2>
+    <p>
+        נלמד על:
+        <ul>
+            <li>ברכות יומיומיות</li>
+            <li>מצוות מרכזיות</li>
+            <li>תפילות בסיסיות</li>
+            <li>אורח חיים יהודי</li>
+        </ul>
+    </p>
+</div>
+
+<div id="heritage" class="section">
+    <h2>מורשת ישראל</h2>
+    <p>
+        נעסוק ב:
+        <ul>
+            <li>היסטוריה יהודית</li>
+            <li>גדולי ישראל</li>
+            <li>ערכים ומסורת</li>
+            <li>קהילות ישראל</li>
+        </ul>
+    </p>
+</div>
+
+<div id="parasha" class="section">
+    <h2>פרשת השבוע</h2>
+    <p>
+        בחלק זה יופיעו:
+        <ul>
+            <li>סיכום פרשת השבוע</li>
+            <li>רעיונות מרכזיים</li>
+            <li>שאלות למחשבה</li>
+            <li>פעילויות לתלמידים</li>
+        </ul>
+    </p>
+</div>
+
+<footer>
+    <p>נוצר באהבה ללימוד היהדות ✡</p>
+</footer>
+
+<script>
+function show(id) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(s => s.classList.remove('active'));
+
+    document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
