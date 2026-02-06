@@ -1,74 +1,95 @@
 <!DOCTYPE html>
-
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="utf-8">
-    <title>לימוד יהדות לתלמידים</title>
+    <meta charset="UTF-8">
+    <title> נתיב</title>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Almarai', sans-serif;
+            margin: 0;
+            background: #f5f5f5;
+            color: #333;
+        }
 
-```
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f5f5f5;
-    }
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
 
-    header {
-        background: #1e3a8a;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+        }
 
-    nav {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin: 20px;
-    }
+        header p {
+            font-size: 24px;
+            margin-top: 10px;
+        }
 
-    nav button {
-        background: #2563eb;
-        color: white;
-        border: none;
-        padding: 12px 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+        /* מקום לתמונה */
+        #header-image {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
 
-    nav button:hover {
-        background: #1d4ed8;
-    }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px;
+        }
 
-    .section {
-        display: none;
-        background: white;
-        margin: 20px;
-        padding: 20px;
-        border-radius: 10px;
-    }
+        nav button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
 
-    .active {
-        display: block;
-    }
+        nav button:hover {
+            background: #1d4ed8;
+        }
 
-    footer {
-        text-align: center;
-        margin: 30px;
-        color: #666;
-    }
-</style>
-```
+        .section {
+            display: none;
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
 
+        .active {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            margin: 30px;
+            color: #666;
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-    <h1>אתר לימוד יהדות</h1>
+    <h1>שלום צדיקים! אשרייכם!</h1>
     <p>ברוכים הבאים למסע להכרת היהדות</p>
+    <!-- הוסיפי את התמונה שלך כאן -->
+    <img id="header-image" src="head_image.pngs" alt="תמונה">
 </header>
 
 <nav>
@@ -152,7 +173,6 @@
 function show(id) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(s => s.classList.remove('active'));
-
     document.getElementById(id).classList.add('active');
 }
 </script>
