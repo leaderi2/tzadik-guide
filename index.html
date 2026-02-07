@@ -348,8 +348,36 @@ function showMonth() {
 }
 
 /* לחיצה על הגלגל = אותו חודש בדיוק */
-document.getElementById("wheelCanvas").addEventListener("click", function() {
-    showMonth();
+document.getElementById("wheelCanvas").addEventListener("click", function(e) {
+
+    const canvas = this;
+    const rect = canvas.getBoundingClientRect();
+
+    const x = e.clientX - rect.left - canvas.width / 2;
+    const y = e.clientY - rect.top - canvas.height / 2;
+
+    // זווית הלחיצה ביחס למרכז
+    let clickAngle = Math.atan2(y, x);
+
+    if (clickAngle < 0)
+        clickAngle += 2 * Math.PI;
+
+    // נתקן לפי הסיבוב הנוכחי של הגלגל
+    let realAngle = clickAngle - angle;
+
+    if (realAngle < 0)
+        realAngle += 2 * Math.PI;
+
+    const sector = (2 * Math.PI) / 12;
+
+    let index = Math.floor(realAngle / sector);
+
+    const month = months[index];
+
+    alert(
+        month + "\n\n" +
+        monthInfo[month]
+    );
 });
 
 drawWheel();
