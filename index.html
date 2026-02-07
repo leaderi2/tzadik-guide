@@ -308,12 +308,17 @@ function drawWheel() {
 
 /* חישוב החודש שמול החץ */
 function getSelectedMonth() {
-    const normalized = (angle % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+
+    // לנרמל את הזווית לטווח 0–2π
+    let a = angle % (2 * Math.PI);
+    if (a < 0) a += 2 * Math.PI;
+
+    // כי החץ למעלה ולא בצד ימין
+    a = a + Math.PI / 2;
 
     const sector = (2 * Math.PI) / 12;
 
-    // החץ נמצא למעלה = זווית 0
-    let index = Math.floor((2*Math.PI - normalized) / sector) % 12;
+    let index = Math.floor((2 * Math.PI - a) / sector) % 12;
 
     return months[index];
 }
