@@ -102,6 +102,26 @@
             color: #666;
             display: none; /* יופיע אחרי בחירת מין */
         }
+
+        .wheel-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .spin-btn {
+            margin-top: 15px;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        .spin-btn:hover {
+            background: #1d4ed8;
+        }
     </style>
 </head>
 <body>
@@ -138,13 +158,17 @@
 </div>
 
 <div id="year" class="section">
-    <h2>מעגל השנה</h2>
-    <ul>
-        <li>חגי ישראל</li>
-        <li>מועדים</li>
-        <li>ימי זיכרון</li>
-        <li>משמעות החגים</li>
-    </ul>
+
+<h2>מעגל השנה</h2>
+
+<div class="wheel-container">
+    <canvas id="wheelCanvas" width="400" height="400"></canvas>
+
+    <button class="spin-btn" onclick="spinWheel()">
+        סובב את הגלגל
+    </button>
+</div>
+
 </div>
 
 <div id="mitzvot" class="section">
@@ -205,6 +229,96 @@ function selectGender(gender) {
         welcome.textContent = 'שלום צדיקה!';
     }
 }
+
+const months = [
+"תשרי","חשוון","כסלו","טבת","שבט","אדר",
+"ניסן","אייר","סיון","תמוז","אב","אלול"
+];
+
+// כאן תוכלי לכתוב מידע אמיתי על כל חודש!
+const monthInfo = {
+"תשרי": "חודש החגים: ראש השנה, יום כיפור, סוכות ושמחת תורה",
+"חשוון": "נקרא גם מרחשוון – חודש ללא חגים",
+"כסלו": "חג החנוכה – אור וניסים",
+"טבת": "עשרה בטבת – יום צום וזיכרון",
+"שבט": "ט״ו בשבט – ראש השנה לאילנות",
+"אדר": "חג הפורים – שמחה גדולה",
+"ניסן": "חג הפסח – יציאת מצרים",
+"אייר": "יום העצמאות ול״ג בעומר",
+"סיון": "חג השבועות – מתן תורה",
+"תמוז": "י״ז בתמוז – תחילת בין המצרים",
+"אב": "תשעה באב – חורבן בית המקדש",
+"אלול": "חודש הרחמים והסליחות"
+};
+
+let angle = 0;
+
+function drawWheel() {
+    const canvas = document.getElementById("wheelCanvas");
+    const ctx = canvas.getContext("2d");
+    const radius = canvas.width / 2;
+
+    ctx.clearRect(0,0,400,400);
+
+    months.forEach((m, i) => {
+        const start = (2 * Math.PI / 12) * i + angle;
+        const end = start + 2 * Math.PI / 12;
+
+        ctx.beginPath();
+        ctx.moveTo(radius, radius);
+        ctx.arc(radius, radius, radius, start, end);
+        ctx.fillStyle = i % 2 === 0 ? "#93c5fd" : "#bfdbfe";
+        ctx.fill();
+
+        // טקסט
+        ctx.save();
+        ctx.translate(radius, radius);
+        ctx.rotate(start + Math.PI / 12);
+        ctx.textAlign = "right";
+        ctx.fillStyle = "black";
+        ctx.font = "16px Arial";
+        ctx.fillText(m, radius - 10, 5);
+        ctx.restore();
+    });
+}
+
+function spinWheel() {
+    let spins = Math.random() * 200 + 200;
+    const interval = setInterval(() => {
+        angle += 0.1;
+        spins--;
+        drawWheel();
+
+        if (spins <= 0) {
+            clearInterval(interval);
+            showRandomMonth();
+        }
+    }, 10);
+}
+
+function showRandomMonth() {
+    const index = Math.floor(Math.random() * 12);
+    const month = months[index];
+
+    alert(
+        month + "\n\n" +
+        monthInfo[month]
+    );
+}
+
+// לחיצה על הגלגל
+document.getElementById("wheelCanvas").addEventListener("click", function(e) {
+    const index = Math.floor(Math.random() * 12);
+    const month = months[index];
+
+    alert(
+        month + "\n\n" +
+        monthInfo[month]
+    );
+});
+
+drawWheel();
+
 </script>
 
 </body>
