@@ -356,15 +356,12 @@ document.getElementById("wheelCanvas").addEventListener("click", function(e) {
     const x = e.clientX - rect.left - canvas.width / 2;
     const y = e.clientY - rect.top - canvas.height / 2;
 
-    // זווית הלחיצה ביחס למרכז
     let clickAngle = Math.atan2(y, x);
-
     if (clickAngle < 0)
         clickAngle += 2 * Math.PI;
 
-    // נתקן לפי הסיבוב הנוכחי של הגלגל
+    // התחשבות בסיבוב הנוכחי
     let realAngle = clickAngle - angle;
-
     if (realAngle < 0)
         realAngle += 2 * Math.PI;
 
@@ -372,7 +369,14 @@ document.getElementById("wheelCanvas").addEventListener("click", function(e) {
 
     let index = Math.floor(realAngle / sector);
 
+    index = ((index % 12) + 12) % 12;
+
     const month = months[index];
+
+    if (!month) {
+        console.log("index:", index, "angle:", realAngle);
+        return;
+    }
 
     alert(
         month + "\n\n" +
