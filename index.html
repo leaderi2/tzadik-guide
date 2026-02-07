@@ -106,21 +106,43 @@
         .wheel-container {
             text-align: center;
             position: relative;
+            width: 420px;
+            margin: auto;
         }
 
+        /* כפתור אדום במרכז */
         .spin-btn {
-            margin-top: 15px;
-            padding: 12px 20px;
-            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 70px;
+            height: 70px;
+
+            border-radius: 50%;
             border: none;
-            border-radius: 8px;
-            background: #2563eb;
-            color: white;
+
+            background: red;
             cursor: pointer;
+            z-index: 10;
         }
 
-        .spin-btn:hover {
-            background: #1d4ed8;
+        /* חץ קטן למעלה */
+        .arrow {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: 0;
+            height: 0;
+
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid red;
+
+            z-index: 10;
         }
     </style>
 </head>
@@ -159,14 +181,18 @@
 
 <div id="year" class="section">
 
-<h2>מעגל השנה</h2>
+<h2>מעגל השנה – גלגל החודשים</h2>
 
 <div class="wheel-container">
-    <canvas id="wheelCanvas" width="400" height="400"></canvas>
 
-    <button class="spin-btn" onclick="spinWheel()">
-        סובב את הגלגל
-    </button>
+    <!-- חץ אדום למעלה -->
+    <div class="arrow"></div>
+
+    <canvas id="wheelCanvas" width="420" height="420"></canvas>
+
+    <!-- כפתור אדום עגול במרכז -->
+    <button class="spin-btn" onclick="spinWheel()"></button>
+
 </div>
 
 </div>
@@ -235,7 +261,6 @@ const months = [
 "ניסן","אייר","סיון","תמוז","אב","אלול"
 ];
 
-// כאן תוכלי לכתוב מידע אמיתי על כל חודש!
 const monthInfo = {
 "תשרי": "חודש החגים: ראש השנה, יום כיפור, סוכות ושמחת תורה",
 "חשוון": "נקרא גם מרחשוון – חודש ללא חגים",
@@ -258,7 +283,7 @@ function drawWheel() {
     const ctx = canvas.getContext("2d");
     const radius = canvas.width / 2;
 
-    ctx.clearRect(0,0,400,400);
+    ctx.clearRect(0,0,420,420);
 
     months.forEach((m, i) => {
         const start = (2 * Math.PI / 12) * i + angle;
@@ -270,7 +295,6 @@ function drawWheel() {
         ctx.fillStyle = i % 2 === 0 ? "#93c5fd" : "#bfdbfe";
         ctx.fill();
 
-        // טקסט
         ctx.save();
         ctx.translate(radius, radius);
         ctx.rotate(start + Math.PI / 12);
@@ -282,8 +306,21 @@ function drawWheel() {
     });
 }
 
+/* חישוב החודש שמול החץ */
+function getSelectedMonth() {
+    const normalized = (angle % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+
+    const sector = (2 * Math.PI) / 12;
+
+    // החץ נמצא למעלה = זווית 0
+    let index = Math.floor((2*Math.PI - normalized) / sector) % 12;
+
+    return months[index];
+}
+
 function spinWheel() {
     let spins = Math.random() * 200 + 200;
+
     const interval = setInterval(() => {
         angle += 0.1;
         spins--;
@@ -291,14 +328,13 @@ function spinWheel() {
 
         if (spins <= 0) {
             clearInterval(interval);
-            showRandomMonth();
+            showMonth();
         }
     }, 10);
 }
 
-function showRandomMonth() {
-    const index = Math.floor(Math.random() * 12);
-    const month = months[index];
+function showMonth() {
+    const month = getSelectedMonth();
 
     alert(
         month + "\n\n" +
@@ -306,18 +342,13 @@ function showRandomMonth() {
     );
 }
 
-// לחיצה על הגלגל
-document.getElementById("wheelCanvas").addEventListener("click", function(e) {
-    const index = Math.floor(Math.random() * 12);
-    const month = months[index];
-
-    alert(
-        month + "\n\n" +
-        monthInfo[month]
-    );
+/* לחיצה על הגלגל = אותו חודש בדיוק */
+document.getElementById("wheelCanvas").addEventListener("click", function() {
+    showMonth();
 });
 
 drawWheel();
+
 
 </script>
 
