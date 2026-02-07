@@ -12,29 +12,27 @@
             color: #333;
         }
 
-        /* Header / Entrance screen */
+        /* ===== מסך כניסה ===== */
         #entrance-screen {
-            background: #1e3a8a;
+            background: #1e3a8a; /* כחול */
             color: white;
-            padding: 80px 20px;
+            height: 100vh; /* מלא מסך */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
         #entrance-screen h1 {
             font-size: 48px;
-            margin: 0 0 20px 0;
-        }
-
-        #entrance-screen p {
-            font-size: 24px;
-            margin: 0 0 40px 0;
+            margin-bottom: 40px;
         }
 
         #entrance-screen button {
-            display: block;
             width: 200px;
-            margin: 10px auto;
             padding: 15px;
+            margin: 10px 0;
             font-size: 20px;
             border: none;
             border-radius: 8px;
@@ -48,23 +46,18 @@
             background: #1d4ed8;
         }
 
-        /* Main content (hidden until selection) */
+        /* ===== מסך ראשי ===== */
         header {
             background: #1e3a8a;
             color: white;
             padding: 60px 20px;
             text-align: center;
-            display: none; /* hide until entrance */
+            display: none; /* יופיע אחרי בחירת מין */
         }
 
         header h1 {
             font-size: 48px;
             margin: 0;
-        }
-
-        header p {
-            font-size: 24px;
-            margin-top: 10px;
         }
 
         nav {
@@ -73,7 +66,7 @@
             gap: 10px;
             flex-wrap: wrap;
             margin: 20px;
-            display: none; /* hide until entrance */
+            display: none; /* יופיע אחרי בחירת מין */
         }
 
         nav button {
@@ -107,24 +100,22 @@
             text-align: center;
             margin: 30px;
             color: #666;
-            display: none; /* hide until entrance */
+            display: none; /* יופיע אחרי בחירת מין */
         }
     </style>
 </head>
 <body>
 
-<!-- Entrance screen -->
+<!-- ===== מסך כניסה ===== -->
 <div id="entrance-screen">
     <h1>שלום צדיקים! אשרייכם!</h1>
-    <p>ברוכים הבאים למסע אל היהדות</p>
     <button onclick="selectGender('male')">זכר</button>
     <button onclick="selectGender('female')">נקבה</button>
 </div>
 
-<!-- Main site content -->
+<!-- ===== מסך ראשי ===== -->
 <header id="main-header">
-    <h1 id="welcome-text">ברוך הבא צדיק!</h1>
-    <p>ברוכים הבאים למסע להכרת היהדות</p>
+    <h1 id="welcome-text">שלום צדיק!</h1>
 </header>
 
 <nav id="main-nav">
@@ -135,69 +126,55 @@
     <button onclick="show('parasha')">פרשת השבוע</button>
 </nav>
 
-<div id="tanach" class="section active">
+<!-- ===== Sections ===== -->
+<div id="tanach" class="section">
     <h2>תנ״ך</h2>
-    <p>
-        בחלק זה נלמד על:
-        <ul>
-            <li>ספרי התורה</li>
-            <li>נביאים</li>
-            <li>כתובים</li>
-            <li>דמויות מרכזיות בתנ״ך</li>
-        </ul>
-    </p>
+    <ul>
+        <li>ספרי התורה</li>
+        <li>נביאים</li>
+        <li>כתובים</li>
+        <li>דמויות מרכזיות בתנ״ך</li>
+    </ul>
 </div>
 
 <div id="year" class="section">
     <h2>מעגל השנה</h2>
-    <p>
-        כאן נכיר את:
-        <ul>
-            <li>חגי ישראל</li>
-            <li>מועדים</li>
-            <li>ימי זיכרון</li>
-            <li>משמעות החגים</li>
-        </ul>
-    </p>
+    <ul>
+        <li>חגי ישראל</li>
+        <li>מועדים</li>
+        <li>ימי זיכרון</li>
+        <li>משמעות החגים</li>
+    </ul>
 </div>
 
 <div id="mitzvot" class="section">
     <h2>ברכות ומצוות</h2>
-    <p>
-        נלמד על:
-        <ul>
-            <li>ברכות יומיומיות</li>
-            <li>מצוות מרכזיות</li>
-            <li>תפילות בסיסיות</li>
-            <li>אורח חיים יהודי</li>
-        </ul>
-    </p>
+    <ul>
+        <li>ברכות יומיומיות</li>
+        <li>מצוות מרכזיות</li>
+        <li>תפילות בסיסיות</li>
+        <li>אורח חיים יהודי</li>
+    </ul>
 </div>
 
 <div id="heritage" class="section">
     <h2>מורשת ישראל</h2>
-    <p>
-        נעסוק ב:
-        <ul>
-            <li>היסטוריה יהודית</li>
-            <li>גדולי ישראל</li>
-            <li>ערכים ומסורת</li>
-            <li>קהילות ישראל</li>
-        </ul>
-    </p>
+    <ul>
+        <li>היסטוריה יהודית</li>
+        <li>גדולי ישראל</li>
+        <li>ערכים ומסורת</li>
+        <li>קהילות ישראל</li>
+    </ul>
 </div>
 
 <div id="parasha" class="section">
     <h2>פרשת השבוע</h2>
-    <p>
-        בחלק זה יופיעו:
-        <ul>
-            <li>סיכום פרשת השבוע</li>
-            <li>רעיונות מרכזיים</li>
-            <li>שאלות למחשבה</li>
-            <li>פעילויות לתלמידים</li>
-        </ul>
-    </p>
+    <ul>
+        <li>סיכום פרשת השבוע</li>
+        <li>רעיונות מרכזיים</li>
+        <li>שאלות למחשבה</li>
+        <li>פעילויות לתלמידים</li>
+    </ul>
 </div>
 
 <footer id="main-footer">
@@ -220,12 +197,12 @@ function selectGender(gender) {
     document.getElementById('main-nav').style.display = 'flex';
     document.getElementById('main-footer').style.display = 'block';
 
-    // Change welcome text based on gender
+    // Set welcome text
     const welcome = document.getElementById('welcome-text');
-    if(gender === 'male') {
-        welcome.textContent = 'ברוך הבא צדיק!';
+    if (gender === 'male') {
+        welcome.textContent = 'שלום צדיק!';
     } else {
-        welcome.textContent = 'ברוכה הבאה צדיקה!';
+        welcome.textContent = 'שלום צדיקה!';
     }
 }
 </script>
