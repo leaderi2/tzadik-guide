@@ -283,6 +283,7 @@ const mitzvotMale = [
 "מודה אני",
 "נטילת ידיים בבוקר",
 "ברכות השחר",
+"ברכת התורה",
 "תפילת שחרית",
 "קריאת שמע",
 "הנחת תפילין",
@@ -349,24 +350,22 @@ function loadMitzvot(gender) {
 
 const brachotFiles = {
 "מודה אני": {
-    male: "brachot/mode_ani_male.txt",
-    female: "brachot/moda_ani_female.txt"
+    "file": "brachot/mode_ani.txt"
 },
 "ברכות השחר": {
-    male: "brachot/brachot_hashachar_male.txt",
-    female: "brachot/brachot_hashachar_female.txt"
+    "file": "brachot/brachot_hashachar.txt"
+},
+"ברכת התורה": {
+    "file": "brachot/brachat_hatora.txt"
 },
 "קריאת שמע": {
-    male: "brachot/kriat_shema.txt",
-    female: "brachot/kriat_shema.txt"
+    "file": "brachot/kriat_shema.txt"
 },
 "ברכת המזון": {
-    male: "brachot/birkat_hamazon.txt",
-    female: "brachot/birkat_hamazon.txt"
+    "file": "brachot/birkat_hamazon.txt"
 },
 "אשר יצר": {
-    male: "brachot/asher_yatzar.txt",
-    female: "brachot/asher_yatzar.txt"
+    "file": "brachot/asher_yatzar.txt"
 }
 };
 
@@ -392,8 +391,7 @@ function loadBrachot() {
 
         btn.onclick = async () => {
 
-            const gender = localStorage.getItem("gender") || "male";
-            const filePath = brachotFiles[name][gender];
+            const filePath = brachotFiles[name]["file"];
 
             const response = await fetch(filePath);
             const text = await response.text();
