@@ -12,6 +12,44 @@
             color: #333;
         }
 
+        #top-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        #bsd {
+            color: #1e3a8a;
+        }
+
+        #hebrew-date {
+            color: #1e3a8a;
+        }
+
+        #daily-mitzvot {
+            background: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        #daily-mitzvot h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .mitzvah-item {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
         /* ===== מסך כניסה ===== */
         #entrance-screen {
             background: #1e3a8a; /* כחול */
@@ -148,6 +186,10 @@
 </head>
 <body>
 
+<div id="top-bar">
+    <div id="bsd">בס״ד</div>
+    <div id="hebrew-date"></div>
+</div>
 <!-- ===== מסך כניסה ===== -->
 <div id="entrance-screen">
     <h1>שלום צדיקים! אשרייכם!</h1>
@@ -159,6 +201,11 @@
 <header id="main-header">
     <h1 id="welcome-text">שלום צדיק!</h1>
 </header>
+
+<div id="daily-mitzvot">
+    <h2>מצוות היום</h2>
+    <div id="mitzvot-list"></div>
+</div>
 
 <nav id="main-nav">
     <button onclick="show('tanach')">תנ״ך</button>
@@ -233,6 +280,80 @@
 </footer>
 
 <script>
+
+const mitzvotMale = [
+"נטילת ידיים בבוקר",
+"מודה אני",
+"ברכות השחר",
+"תפילת שחרית",
+"קריאת שמע",
+"הנחת תפילין",
+"תפילת מנחה",
+"תפילת ערבית",
+"קריאת שמע שעל המיטה",
+"ברכות לפני ואחרי אכילה",
+"לימוד תורה יומי",
+"כיבוד הורים",
+"שמירת הלשון",
+"אהבת ישראל"
+];
+
+const mitzvotFemale = [
+"נטילת ידיים בבוקר",
+"מודה אני",
+"ברכות השחר",
+"תפילה אחת ביום",
+"קריאת שמע",
+"ברכות לפני ואחרי אכילה",
+"לימוד תורה יומי",
+"כיבוד הורים",
+"שמירת הלשון",
+"צניעות",
+"אהבת ישראל"
+];
+
+function getTodayKey() {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+}
+
+function loadMitzvot(gender) {
+
+    document.getElementById("daily-mitzvot").style.display = "block";
+
+    const list = document.getElementById("mitzvot-list");
+    list.innerHTML = "";
+
+    const todayKey = getTodayKey();
+    const saved = JSON.parse(localStorage.getItem("mitzvot-" + todayKey)) || {};
+
+    const mitzvot = gender === "male" ? mitzvotMale : mitzvotFemale;
+
+    mitzvot.forEach((m, i) => {
+
+        const div = document.createElement("div");
+        div.className = "mitzvah-item";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = "m" + i;
+        checkbox.checked = saved[i] || false;
+
+        checkbox.addEventListener("change", () => {
+            saved[i] = checkbox.checked;
+            localStorage.setItem("mitzvot-" + todayKey, JSON.stringify(saved));
+        });
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = " " + m;
+
+        div.appendChild(checkbox);
+        div.appendChild(label);
+        list.appendChild(div);
+    });
+}
+
 function show(id) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(s => s.classList.remove('active'));
@@ -255,7 +376,17 @@ function selectGender(gender) {
     } else {
         welcome.textContent = 'שלום צדיקה!';
     }
+
+    loadMitzvot(gender);
 }
+function updateHebrewDate() {
+    const today = new Date();
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    const hebrewDate = today.toLocaleDateString('he-IL-u-ca-hebrew', options);
+    document.getElementById("hebrew-date").textContent = hebrewDate;
+}
+
+updateHebrewDate();
 
 const months = [
 "תשרי","חשוון","כסלו","טבת","שבט","אדר",
