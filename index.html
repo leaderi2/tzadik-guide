@@ -266,13 +266,9 @@
 </div>
 
 <div id="mitzvot" class="section">
-    <h2>ברכות ומצוות</h2>
-    <ul>
-        <li>ברכות יומיומיות</li>
-        <li>מצוות מרכזיות</li>
-        <li>תפילות בסיסיות</li>
-        <li>אורח חיים יהודי</li>
-    </ul>
+    <h2>ברכות</h2>
+    <div id="brachot-list"></div>
+    <div id="bracha-text" style="margin-top:20px;"></div>
 </div>
 
 <div id="popup" class="popup">שכוייח!!! 🎉</div>
@@ -351,7 +347,71 @@ function loadMitzvot(gender) {
     });
 }
 
+const brachotFiles = {
+"מודה אני": {
+    male: "brachot/mode_ani_male.txt",
+    female: "brachot/moda_ani_female.txt"
+},
+"ברכות השחר": {
+    male: "brachot/brachot_hashachar_male.txt",
+    female: "brachot/brachot_hashachar_female.txt"
+},
+"קריאת שמע": {
+    male: "brachot/kriat_shema.txt",
+    female: "brachot/kriat_shema.txt"
+},
+"ברכת המזון": {
+    male: "brachot/birkat_hamazon.txt",
+    female: "brachot/birkat_hamazon.txt"
+},
+"אשר יצר": {
+    male: "brachot/asher_yatzar.txt",
+    female: "brachot/asher_yatzar.txt"
+}
+};
+
+function loadBrachot() {
+
+    const listDiv = document.getElementById("brachot-list");
+    const textDiv = document.getElementById("bracha-text");
+
+    listDiv.innerHTML = "";
+    textDiv.innerHTML = "";
+
+    Object.keys(brachot).forEach(name => {
+
+        const btn = document.createElement("button");
+        btn.textContent = name;
+        btn.style.margin = "5px";
+        btn.style.padding = "8px 12px";
+        btn.style.borderRadius = "8px";
+        btn.style.border = "none";
+        btn.style.background = "#2563eb";
+        btn.style.color = "white";
+        btn.style.cursor = "pointer";
+
+        btn.onclick = async () => {
+
+            const gender = localStorage.getItem("gender") || "male";
+            const filePath = brachotFiles[name][gender];
+
+            const response = await fetch(filePath);
+            const text = await response.text();
+
+            textDiv.innerHTML =
+                "<div style='background:white;padding:25px;border-radius:15px;line-height:2.2;font-size:20px;'>" +
+                text.replace(/\n/g, "<br>") +
+                "</div>";
+        };
+
+        listDiv.appendChild(btn);
+    });
+}
+
 function show(id) {
+    if (id === "mitzvot") {
+        loadBrachot();
+    }
     const sections = document.querySelectorAll('.section');
     sections.forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -373,37 +433,65 @@ function selectGender(gender) {
     } else {
         welcome.textContent = 'שלום צדיקה!';
     }
+    localStorage.setItem("gender", gender);
 
     loadMitzvot(gender);
 }
-function numberToHebrew(num) {
-    const letters = [
-        "", "א","ב","ג","ד","ה","ו","ז","ח","ט",
-        "י","י״א","י״ב","י״ג","יד","ט״ו","ט״ז","י״ז","י״ח","י״ט",
-        "כ","כ״א","כב״","כ״ג","כ״ד","כ״ה","כ״ו","כ״ז","כ״ח","כ״ט",
-        "ל"
-    ];
-    return letters[num] || num;
+
+function numberToHebrewLetters(num) {
+    const units = ["","א","ב","ג","ד","ה","ו","ז","ח","ט"];
+    const tens = ["","י","כ","ל","מ","נ","ס","ע","פ","צ"];
+    const hundreds = ["","ק","ר","ש","ת","תק","תר","תש","תת","תתק"];
+
+    let result = "";
+
+    if (num >= 100) {
+        result += hundreds[Math.floor(num / 100)];
+        num = num % 100;
+    }
+
+    if (num >= 10) {
+        result += tens[Math.floor(num / 10)];
+        num = num % 10;
+    }
+
+    if (num > 0) {
+        result += units[num];
+    }
+
+    return result;
+}
+
+function convertHebrewYear(year) {
+    const thousands = Math.floor(year / 1000);
+    const remainder = year % 1000;
+
+    return numberToHebrewLetters(thousands) + "׳" +
+           numberToHebrewLetters(remainder);
 }
 
 function updateHebrewDate() {
+
     const today = new Date();
 
-    const day = today.getDate();
-
-    const monthOptions = { month: 'long' };
-    const month = today.toLocaleDateString('he-IL-u-ca-hebrew', monthOptions);
-
-    const yearOptions = { year: 'numeric' };
-    const yearNumber = parseInt(
-        today.toLocaleDateString('he-IL-u-ca-hebrew', yearOptions)
+    const day = parseInt(
+        today.toLocaleDateString('he-IL-u-ca-hebrew', { day: 'numeric' })
     );
 
-    const hebrewDay = numberToHebrew(day);
-    const hebrewYear = numberToHebrew(yearNumber % 30); // פשטות לשלב ראשון
+    const month = today.toLocaleDateString(
+        'he-IL-u-ca-hebrew',
+        { month: 'long' }
+    );
+
+    const year = parseInt(
+        today.toLocaleDateString('he-IL-u-ca-hebrew', { year: 'numeric' })
+    );
+
+    const hebrewDay = numberToHebrewLetters(day);
+    const hebrewYear = convertHebrewYear(year);
 
     document.getElementById("hebrew-date").textContent =
-        hebrewDay + " ב" + month;
+        hebrewDay + " ב" + month + " " + hebrewYear;
 }
 
 updateHebrewDate();
