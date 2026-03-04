@@ -10,17 +10,20 @@
             margin: 0;
             background: #f5f5f5;
             color: #333;
+            padding-top: 50px;
         }
 
         #top-bar {
             position: fixed;
             top: 0;
-            width: 100%;
+            right: 0;
+            left: 0;
             display: flex;
             justify-content: space-between;
             padding: 10px 20px;
             font-weight: bold;
-            z-index: 1000;
+            z-index: 5000;
+            background: #f5f5f5;
         }
 
         #bsd {
@@ -182,6 +185,26 @@
 
             z-index: 10;
         }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #1e3a8a;
+            color: white;
+            padding: 25px 40px;
+            border-radius: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: 0.3s ease;
+            z-index: 6000;
+        }
+
+        .popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
     </style>
 </head>
 <body>
@@ -252,6 +275,7 @@
     </ul>
 </div>
 
+<div id="popup" class="popup">שכוייח!!! 🎉</div>
 
 <footer id="main-footer">
     <p>נוצר באהבה ללימוד היהדות ✡</p>
@@ -311,6 +335,10 @@ function loadMitzvot(gender) {
         checkbox.addEventListener("change", () => {
             saved[i] = checkbox.checked;
             localStorage.setItem("mitzvot-" + todayKey, JSON.stringify(saved));
+
+            if (checkbox.checked) {
+                showPopup();
+            }
         });
 
         const label = document.createElement("label");
@@ -487,8 +515,17 @@ document.getElementById("wheelCanvas").addEventListener("click", function(e) {
 
 drawWheel();
 
+function showPopup() {
+    const popup = document.getElementById("popup");
+    popup.classList.add("show");
+
+    setTimeout(() => {
+        popup.classList.remove("show");
+    }, 1000);
+}
 
 </script>
+
 
 </body>
 </html>
