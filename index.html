@@ -373,37 +373,68 @@ const brachotFiles = {
 function loadBrachot() {
 
     const listDiv = document.getElementById("brachot-list");
-    const textDiv = document.getElementById("bracha-text");
-
     listDiv.innerHTML = "";
-    textDiv.innerHTML = "";
 
-    Object.keys(brachot).forEach(name => {
+    Object.keys(brachotFiles).forEach(name => {
 
-        const btn = document.createElement("button");
-        btn.textContent = name;
-        btn.style.margin = "5px";
-        btn.style.padding = "8px 12px";
-        btn.style.borderRadius = "8px";
-        btn.style.border = "none";
-        btn.style.background = "#2563eb";
-        btn.style.color = "white";
-        btn.style.cursor = "pointer";
+        const container = document.createElement("div");
+        container.style.marginBottom = "10px";
 
-        btn.onclick = async () => {
+        const header = document.createElement("div");
+        header.style.cursor = "pointer";
+        header.style.fontSize = "20px";
+        header.style.display = "flex";
+        header.style.alignItems = "center";
+        header.style.gap = "10px";
 
-            const filePath = brachotFiles[name]["file"];
+        const arrow = document.createElement("span");
+        arrow.textContent = "▶";
 
-            const response = await fetch(filePath);
-            const text = await response.text();
+        const title = document.createElement("span");
+        title.textContent = name;
 
-            textDiv.innerHTML =
-                "<div style='background:white;padding:25px;border-radius:15px;line-height:2.2;font-size:20px;'>" +
-                text.replace(/\n/g, "<br>") +
-                "</div>";
+        header.appendChild(arrow);
+        header.appendChild(title);
+
+        const textDiv = document.createElement("div");
+        textDiv.style.display = "none";
+        textDiv.style.background = "white";
+        textDiv.style.padding = "20px";
+        textDiv.style.marginTop = "5px";
+        textDiv.style.borderRadius = "10px";
+        textDiv.style.lineHeight = "2";
+        textDiv.style.fontSize = "20px";
+
+        header.onclick = async () => {
+
+            if (textDiv.style.display === "none") {
+
+                arrow.textContent = "▼";
+
+                if (textDiv.innerHTML === "") {
+
+                    const filePath = brachotFiles[name]["file"];
+
+                    const response = await fetch(filePath);
+                    const text = await response.text();
+
+                    textDiv.innerHTML = text.replace(/\n/g, "<br>");
+                }
+
+                textDiv.style.display = "block";
+
+            } else {
+
+                arrow.textContent = "▶";
+                textDiv.style.display = "none";
+
+            }
         };
 
-        listDiv.appendChild(btn);
+        container.appendChild(header);
+        container.appendChild(textDiv);
+
+        listDiv.appendChild(container);
     });
 }
 
