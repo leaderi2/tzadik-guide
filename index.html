@@ -205,6 +205,75 @@
         .popup.show {
             transform: translate(-50%, -50%) scale(1);
         }
+
+        .family-tree ul {
+            padding-top: 20px;
+            position: relative;
+            padding-right: 0;
+        }
+
+        .family-tree li {
+            list-style-type: none;
+            text-align: center;
+            position: relative;
+            padding: 20px 5px 0 5px;
+        }
+
+        .family-tree li::before,
+        .family-tree li::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            border-top: 2px solid #ccc;
+            width: 50%;
+            height: 20px;
+        }
+
+        .family-tree li::before {
+            right: 50%;
+        }
+
+        .family-tree li::after {
+            left: 50%;
+        }
+
+        .family-tree li:only-child::after,
+        .family-tree li:only-child::before {
+            display: none;
+        }
+
+        .family-tree li:first-child::before,
+        .family-tree li:last-child::after {
+            border: 0;
+        }
+
+        .family-tree ul ul::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-right: 2px solid #ccc;
+            height: 20px;
+        }
+
+        .person {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 10px;
+            background: #dbeafe;
+            border: 2px solid #2563eb;
+            font-weight: bold;
+        }
+
+        .wife {
+            background: #fde2e2;
+            border-color: #ef4444;
+        }
+
+        .tribe {
+            background: #fde68a;
+            border-color: #d97706;
+        }
     </style>
 </head>
 <body>
@@ -238,13 +307,89 @@
 
 <!-- ===== Sections ===== -->
 <div id="tanach" class="section">
-    <h2>תנ״ך</h2>
-    <ul>
-        <li>ספרי התורה</li>
-        <li>נביאים</li>
-        <li>כתובים</li>
-        <li>דמויות מרכזיות בתנ״ך</li>
-    </ul>
+
+<h2>האבות והאמהות</h2>
+
+<div class="family-tree">
+
+<ul>
+<li>
+
+<div class="person">אברהם</div>
+
+<ul>
+<li>
+<div class="person">שרה</div>
+
+<ul>
+<li>
+<div class="person">יצחק</div>
+
+<ul>
+<li>
+<div class="person">רבקה</div>
+
+<ul>
+<li>
+<div class="person">יעקב</div>
+
+<ul class="wives">
+
+<li>
+<div class="person wife">לאה</div>
+<ul class="tribes">
+<li><div class="person tribe">ראובן</div></li>
+<li><div class="person tribe">שמעון</div></li>
+<li><div class="person tribe">לוי</div></li>
+<li><div class="person tribe">יהודה</div></li>
+<li><div class="person tribe">יששכר</div></li>
+<li><div class="person tribe">זבולון</div></li>
+</ul>
+</li>
+
+<li>
+<div class="person wife">רחל</div>
+<ul class="tribes">
+<li><div class="person tribe">יוסף</div></li>
+<li><div class="person tribe">בנימין</div></li>
+</ul>
+</li>
+
+<li>
+<div class="person wife">בלהה</div>
+<ul class="tribes">
+<li><div class="person tribe">דן</div></li>
+<li><div class="person tribe">נפתלי</div></li>
+</ul>
+</li>
+
+<li>
+<div class="person wife">זלפה</div>
+<ul class="tribes">
+<li><div class="person tribe">גד</div></li>
+<li><div class="person tribe">אשר</div></li>
+</ul>
+</li>
+
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
+
 </div>
 
 <div id="year" class="section">
