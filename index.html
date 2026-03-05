@@ -271,6 +271,7 @@
     <div id="bracha-text" style="margin-top:20px;"></div>
 </div>
 
+
 <div id="popup" class="popup">שכוייח!!! 🎉</div>
 
 <footer id="main-footer">
@@ -437,6 +438,11 @@ function selectGender(gender) {
 }
 
 function numberToHebrewLetters(num) {
+
+    // תיקון מיוחד לט״ו וט״ז
+    if (num === 15) return "טו";
+    if (num === 16) return "טז";
+
     const units = ["","א","ב","ג","ד","ה","ו","ז","ח","ט"];
     const tens = ["","י","כ","ל","מ","נ","ס","ע","פ","צ"];
     const hundreds = ["","ק","ר","ש","ת","תק","תר","תש","תת","תתק"];
